@@ -1,3 +1,4 @@
+Run the test using-  npx cucumber-js features 
 The scripts for webchat is written under file - webchat_scripts.spec.js
 The scripts cover following cases-
 
