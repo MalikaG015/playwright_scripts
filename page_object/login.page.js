@@ -1,16 +1,39 @@
 const { expect } = require('@playwright/test')
+var {setDefaultTimeout} = require('cucumber');
+setDefaultTimeout=(60 * 1000);
+
 class LoginPage {
     //restrucure, js doc, datatype, return type, params
     elements = {
-        emailInput: 'input[name="email"]'
+        emailInput: 'input[name="email"]',
+        passwordInput: 'input[name="password"]'
     }
+     async wait(time) {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, time * 1000);
+        });
+      }
+
     async navigate() {
-        await page.goto('https://qa-lab5.finesource.org/login.html');
+        await page.goto('https://qa-lab5.finesource.org/login.html'), { timeout: 50000 };
+      await page.waitForLoadState('load');
     }
 
     async supervisorLoginToMain() {
+        await page.waitForSelector(this.elements.emailInput,{
+            state: 'visible',
+            timeout: setDefaultTimeout,
+        })
         await page.fill(this.elements.emailInput, 'admin@tests.surbhi')
-        await page.fill('input[name="password"]', 'password123')
+        await page.waitForSelector(this.elements.passwordInput,{
+            state: 'visible',
+            timeout: setDefaultTimeout,
+        })
+        await page.fill(this.elements.passwordInput, 'password123')
+        await page.waitForSelector('#btn-login',{
+            state: 'visible',
+            timeout: setDefaultTimeout,
+        })
         await page.locator('#btn-login').click()
     }
 
@@ -26,34 +49,33 @@ class LoginPage {
         await expect(page).toHaveURL('https://qa-lab5.finesource.org/index.php#/fs/modules/profile/profile.html');
     }
     async createBreak() {
-        // await page.locator('//a[@id="menu_10"]').isVisible({ timeout: 5000 });
+        await page.waitForSelector('[data-title="Users"]', {
+            state: 'visible',
+            timeout: setDefaultTimeout,
+        })
+        await this.wait(10)
+        await page.locator('[data-title="Users"]').isVisible({ timeout: setDefaultTimeout });
         await page.locator('[data-title="Users"]').hover();
-        //await page.locator('[data-title="Users & Groups"]').click()
-        //await  page.locator('//a[@data-title="Users"]').click()
-        // await page.locator('//a[@id="menu_10"]').click()
-        //await page.dispatchEvent('//a[@id="menu_10"]', 'mouseover');
-        //await  page.locator('//a[@data-title="Users & Groups"]').click()
-        //await  page.locator('//a[@id="menu_30"]').click()
+        await page.waitForSelector('//span[contains(text(),"Groups & users")]', {
+            state: 'visible',
+            timeout: setDefaultTimeout,
+        })
+        await page.locator('//span[contains(text(),"Groups & users")]').click()
+        await page.waitForSelector('//span[contains(text(),"Group_1")]', {
+            state: 'visible',
+            timeout: setDefaultTimeout,
+        });
+        await page.locator('//span[contains(text(),"Group_1")]').click()
+        await page.locator('//span[contains(text(),"Add break")]').click();
+        await page.locator('(//input[@placeholder="Morning Breaks"])').fill('Break1');
+        await page.locator('input.form-control.timepick-input.new-timepick-init.text-center.react-to-pointer-event-on-disabled[placeholder="HH:MM"]').fill('10:00');
+        await page.locator('input.form-control.timepick-input.new-timepick-end.text-center.react-to-pointer-event-on-disabled[placeholder="HH:MM"]').fill('23:00');
+        await page.locator('input.form-control.spinner-both.new-break-max-time.text-align-center.react-to-pointer-event-on-disabled.ui-spinner-input[placeholder="MM"]').fill('60');
+        await page.locator('i.fa.fa-lock.fa-2x.new-toggle-auth.click-icons.react-to-pointer-event-on-disabled').click();
+         //await page.locator('button.btn.btn-success.btn-xs.break-save.click-icons.access-level-edit').click();
+         await page.locator('#breaks-table-body').getByRole('button').first().click();
 
-        // await page.locator('//span[contains(text(), "Group_1")]').click();
-        // await page.locator('//span[contains(text(),"Add break")]').click();
-        // await page.locator('//input[@placeholder="Morning Breaks"]').fill('Break1');
-        // await page.locator('input.form-control.timepick-input.new-timepick-init.text-center.react-to-pointer-event-on-disabled[placeholder="HH:MM"]').fill('10:00');
-        // await page.locator('input.form-control.timepick-input.new-timepick-end.text-center.react-to-pointer-event-on-disabled[placeholder="HH:MM"]').fill('23:00');
-        // await page.locator('input.form-control.spinner-both.new-break-max-time.text-align-center.react-to-pointer-event-on-disabled.ui-spinner-input[placeholder="MM"]').fill('60');
-        // await page.locator('i.fa.fa-lock.fa-2x.new-toggle-auth.click-icons.react-to-pointer-event-on-disabled').click();
-        // await page.locator('button.btn.btn-success.btn-xs.break-save.click-icons.access-level-edit').click();
     }
-
-    // async accessUsersAndGroup() {
-    //     await page.getByRole('link', { name: 'Groups & users' }).click();
-    //     //  await page.locator('text=Users & groups management').toBeVisible()
-    // }
-    // async selectBreakGroup() {
-    //     //await page.getByLabel('Groups (3) Add').locator('label').filter({ hasText: 'Group_1' }).click();
-    //     await page.getByLabel('Groups (3) Add').getByText('Group_1').click();
-    // }
-
     async AgentloginToVoice() {
         await this.AgentloginToMain()
         await page.locator('#channel-voice-label-text').getByText('Offline').click();

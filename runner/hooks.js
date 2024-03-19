@@ -1,10 +1,12 @@
-const {BeforeAll, Before, AfterAll, After} = require ('cucumber')
+const {BeforeAll, Before, AfterAll, After, setDefaultTimeout} = require ('cucumber')
 const { chromium } = require('playwright');
 const fs = require ('fs')
 var path = require('path');
 //let moonHost = process.env.moonHostIp;
 //let moonHost = '52.186.103.162';
 let moonHost = '';
+setDefaultTimeout(60 * 8 * 10000);
+
 
 // Create a global browser for the test session.
 BeforeAll(async() =>{
@@ -18,7 +20,9 @@ BeforeAll(async() =>{
         }
         else{
             console.log(moonHost)  
-            global.browser = await chromium.launch();
+            global.browser = await chromium.launch({
+                headless: false
+            });
         }
 });
 
