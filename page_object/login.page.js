@@ -72,7 +72,6 @@ class LoginPage {
         await page.locator('input.form-control.timepick-input.new-timepick-end.text-center.react-to-pointer-event-on-disabled[placeholder="HH:MM"]').fill('23:00');
         await page.locator('input.form-control.spinner-both.new-break-max-time.text-align-center.react-to-pointer-event-on-disabled.ui-spinner-input[placeholder="MM"]').fill('60');
         await page.locator('i.fa.fa-lock.fa-2x.new-toggle-auth.click-icons.react-to-pointer-event-on-disabled').click();
-         //await page.locator('button.btn.btn-success.btn-xs.break-save.click-icons.access-level-edit').click();
          await page.locator('#breaks-table-body').getByRole('button').first().click();
 
     }
