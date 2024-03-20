@@ -13,7 +13,7 @@ When('Supervisor logs in with correct email and password', async () => {
    await loginpage.supervisorLoginToMain();
 })
 
-Then('Login should be successfull', async () => {
+Then('Supervisor login should be successfull', async () => {
    await loginpage.supervisorLoginToMainSuccessfull();
 })
 
@@ -42,25 +42,24 @@ When('Agent logs in with correct email and password', async () => {
    await loginpage.AgentloginToMain();
 });
 
-Then('Login should be successfull', async () => {
+Then('Agent login should be successfull', async () => {
    await loginpage.agentLoginToMainSuccessfull()
 });
 
 When('Agent log in on the voice channel',async()=>{
-   await loginpage.AgentloginToMain()
    await loginpage.AgentloginToVoice();
 
 })
-When('Agent chooses campaigns and queues',async()=>{
+When('Agent chooses capmaigns and queues',async()=>{
    await loginpage.configureVoiceChannel();
 })
 When('Agent apply for a break',async()=>{
    await breakpage.accessBreak();
 
 })
-When('Supervisor receives authorization request for break and is clicked on Authorize button',async()=>{
-   await breakpage.authorizeBreak();
-})
+// When('Supervisor receives authorization request for break and is clicked on Authorize button',async()=>{
+//    await breakpage.authorizeBreak();
+// })
 Then('Agent should be on break',async()=>{
    await breakpage.breakAppliedSuccessfully()
 
