@@ -81,8 +81,6 @@ class LoginPage {
             state: 'visible',
             timeout: setDefaultTimeout,
         })
-        await this.wait(10)
-        await page.locator('[data-title="Users"]').isVisible({ timeout: setDefaultTimeout });
         await page.locator('[data-title="Users"]').hover();
         await page.waitForSelector('//span[contains(text(),"Groups & users")]', {
             state: 'visible',
@@ -121,9 +119,8 @@ class LoginPage {
     }
 
     async configureVoiceChannel() {
-        await this.waitForSelectorVisible('a.select2-choice')
-        await page.locator('a.select2-choice').click()
-        await page.locator("//li[div[@class='select2-result-label' and contains(text(), 'OutboundCampaign_1')]]").click();
+        await page.locator('//*[@id="s2id_voice-outbound-inbound-selector-select"]/a').click()
+         await page.locator("//li[div[@class='select2-result-label' and contains(text(), 'OutboundCampaign_1')]]").click();
         await this.waitForSelectorVisible('//span[contains(text(),"InboundQueue_1")]')
         await page.locator('//span[contains(text(),"InboundQueue_1")]').click()
         await this.waitForSelectorVisible('#voice-login-extension')
@@ -132,7 +129,6 @@ class LoginPage {
         await expect(page.locator('#voice-login-submit')).toBeVisible()
         await page.click('#voice-login-submit');
     }
-    
 }
 
 module.exports = { LoginPage };

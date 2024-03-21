@@ -1,7 +1,11 @@
 const { Given, When, Then } = require('cucumber')
 const { BreakPage } = require('../../page_object/break.page')
 const { LoginPage } = require('../../page_object/login.page');
+const { VoiceManagerPage } = require('../../page_object/voiceManager.page')
+const { CRMPage } = require('../../page_object/crm.page')
 
+const voiceManagerPage = new VoiceManagerPage();
+const crmPage = new CRMPage();
 const breakpage = new BreakPage();
 const loginpage = new LoginPage();
 
@@ -46,7 +50,7 @@ Then('Agent login should be successfull', async () => {
    await loginpage.agentLoginToMainSuccessfull()
 });
 
-When('Agent log in on the voice channel',async()=>{
+When('Log in on the voice channel',async()=>{
    await loginpage.AgentloginToVoice();
 
 })
@@ -64,11 +68,23 @@ Then('Agent should be on break',async()=>{
    await breakpage.breakAppliedSuccessfully()
 
 })
+When('Access the voice manager tab to configure campaign settings', async () => {
+   await voiceManagerPage.configureCampaign()
+})
+Then('Campaign is set sucessfully', async()=>{
+   await voiceManagerPage.campaignConfiguredSuccessfully()
+})
 
+When('Makes a call', async()=>{
+   await voiceManagerPage.makeCall()
+})
 
+Then('Outcome is selected', async()=>{
+   await voiceManagerPage.selectOutcome()
+})
 
-// Given('As an agent log in to the voice channel', async()=>{
-//    await loginpage.AgentloginToVoice()
-// })
+When('Use CRM to verify call log', async()=>{
+   await crmPage.checkCRM()
+})
 
 

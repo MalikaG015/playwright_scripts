@@ -87,12 +87,5 @@ class BreakPage {
         const breakElement = page.locator('a#break-id-33.jarvismetro-tile.big-cubes.break-box.break-with-permission.bg-color-blueGo.break-active');
         await expect(breakElement).toHaveCount(1);
     }
-
-    // async AgentOnBreakManager() {
-
-    // }
-
-
-
 }
 module.exports = { BreakPage };
