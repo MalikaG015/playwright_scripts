@@ -3,8 +3,12 @@ const { BreakPage } = require('../../page_object/break.page')
 const { LoginPage } = require('../../page_object/login.page');
 const { VoiceManagerPage } = require('../../page_object/voiceManager.page')
 const { CRMPage } = require('../../page_object/crm.page')
+const { TicketPage }=require('../../page_object/ticket.page')
+const { DashboardPage}= require('../../page_object/dashboard.page')
 
 const voiceManagerPage = new VoiceManagerPage();
+const dashboardPage=new DashboardPage();
+const ticketPage= new TicketPage();
 const crmPage = new CRMPage();
 const breakpage = new BreakPage();
 const loginpage = new LoginPage();
@@ -13,8 +17,8 @@ Given('As a supervisor log in to the platform', async () => {
    await loginpage.navigate();
 });
 
-When('Supervisor logs in with correct email and password', async () => {
-   await loginpage.supervisorLoginToMain();
+When('Supervisor logs in with correct email {string} and password {string}', async (username, password) => {
+   await loginpage.supervisorLoginToMain(username, password);
 })
 
 Then('Supervisor login should be successfull', async () => {
@@ -42,8 +46,8 @@ Given('As an agent log in to the platform', async () => {
    await loginpage.navigate();
 });
 
-When('Agent logs in with correct email and password', async () => {
-   await loginpage.AgentloginToMain();
+When('Agent logs in with correct email {string} and password {string}', async (username, password) => {
+   await loginpage.AgentloginToMain(username, password);
 });
 
 Then('Agent login should be successfull', async () => {
@@ -52,11 +56,13 @@ Then('Agent login should be successfull', async () => {
 
 When('Log in on the voice channel',async()=>{
    await loginpage.AgentloginToVoice();
-
 })
-When('Agent chooses capmaigns and queues',async()=>{
+
+//Agent chooses campaigns {string} and queues {string}
+When('Agent chooses campaigns and queues',async()=>{
    await loginpage.configureVoiceChannel();
 })
+
 When('Agent apply for a break',async()=>{
    await breakpage.accessBreak();
 
@@ -87,4 +93,26 @@ When('Use CRM to verify call log', async()=>{
    await crmPage.checkCRM()
 })
 
+Then('Call and all its data is sucessfully registered',async()=>{
+   await crmPage.callRegisteredSuccessfully()
+})
+
+When ('User access ticket channel', async()=>{
+   await ticketPage.accessTicketChannel()
+
+})
+
+When('Let user wait for 1 second before navigating to the dashboard page', async()=>{
+   await dashboardPage.accsessDashboardPage()
+})
+
+When('User selects the agent tab', async()=>{
+   await dashboardPage.accessAgentTab()
+})
+When('User selects the ticket tab', async()=>{
+   await dashboardPage.accessTicketTab()
+})
+Then('Verify agent is in idle state in ticket tab',async()=>{
+   await dashboardPage.checkIdleState()
+})
 

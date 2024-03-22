@@ -14,8 +14,12 @@ Feature: Making a call using the voice manager
     #     And Makes a call
     #     Then Outcome is selected
 
-    Scenario: Supervisor checks call data on CRM
-        Given As a supervisor log in to the platform
-        When Supervisor logs in with correct email and password
-        And Use CRM to verify call log
-        Then Call and all its data is sucessfully registered
+    # Scenario Outline: Supervisor checks call data on CRM
+    #     Given As a supervisor log in to the platform
+    #     When Supervisor logs in with correct email "<Username>" and password "<Password>"
+    #     And Use CRM to verify call log
+    #     Then Call and all its data is sucessfully registered
+
+    #     Examples:
+    #         | Username           | Password    |
+    #         | admin@tests.surbhi | password123 |

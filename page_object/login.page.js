@@ -26,49 +26,29 @@ class LoginPage {
         await page.waitForLoadState('load');
     }
 
-    async supervisorLoginToMain() {
-        await page.waitForSelector(this.elements.emailInput, {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        })
-        await page.fill(this.elements.emailInput, 'admin@tests.surbhi')
-        await page.waitForSelector(this.elements.passwordInput, {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        })
-        await page.fill(this.elements.passwordInput, 'password123')
-        await page.waitForSelector('#btn-login', {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        })
+    async supervisorLoginToMain(username, password) {
+        await this.waitForSelectorVisible(this.elements.emailInput)
+        await page.fill(this.elements.emailInput, username)
+        await this.waitForSelectorVisible(this.elements.passwordInput)
+        await page.fill(this.elements.passwordInput, password)
+        await this.waitForSelectorVisible('#btn-login')
         await page.locator('#btn-login').click()
     }
 
     async supervisorLoginToMainSuccessfull() {
-        await page.waitForSelector('#groupdName', {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        });
+        await this.waitForSelectorVisible('#groupdName')
         await expect(page).toHaveURL('https://qa-lab5.finesource.org/index.php#/fs/modules/profile/profile.html');
     }
 
-    async AgentloginToMain() {
-        await page.waitForSelector('input[name="email"]', {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        })
-        await page.fill('input[name="email"]', 'Agent_1@tests.surbhi')
-        await page.waitForSelector('input[name="password"]', {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        })
-        await page.fill('input[name="password"]', 'password123')
-        await page.waitForSelector('#btn-login', {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        })
+    async AgentloginToMain(username, password) {
+        await this.waitForSelectorVisible(this.elements.emailInput)
+        await page.fill('input[name="email"]', username)
+        await this.waitForSelectorVisible(this.elements.passwordInput)
+        await page.fill('input[name="password"]', password)
+        await this.waitForSelectorVisible('#btn-login')
         await page.locator('#btn-login').click()
     }
+
     async agentLoginToMainSuccessfull() {
         await page.waitForSelector('#groupdName', {
             state: 'visible',
@@ -76,6 +56,7 @@ class LoginPage {
         });
         await expect(page).toHaveURL('https://qa-lab5.finesource.org/index.php#/fs/modules/profile/profile.html');
     }
+
     async createBreak() {
         await page.waitForSelector('[data-title="Users"]', {
             state: 'visible',
@@ -129,6 +110,7 @@ class LoginPage {
         await expect(page.locator('#voice-login-submit')).toBeVisible()
         await page.click('#voice-login-submit');
     }
+    
 }
 
 module.exports = { LoginPage };
