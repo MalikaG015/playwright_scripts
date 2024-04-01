@@ -2,17 +2,37 @@ const { expect } = require('@playwright/test')
 var {setDefaultTimeout} = require('cucumber');
 setDefaultTimeout=(60 * 1000);
 
+/**
+ * Represents the login page functionalities.
+ */
+
 class LoginPage {
     //restrucure, js doc, datatype, return type, params
+    /**
+     * Elements on the login page.
+     * @type {Object}
+     * @property {string} emailInput - Selector for the email input field.
+     * @property {string} passwordInput - Selector for the password input field.
+     */
     elements = {
         emailInput: 'input[name="email"]',
         passwordInput: 'input[name="password"]'
     }
+    /**
+     * Waits for a specified time.
+     * @param {number} time - The time to wait in seconds.
+     * @returns {Promise<void>}
+     */
      async wait(time) {
         return new Promise(function (resolve) {
           setTimeout(resolve, time * 1000);
         });
       }
+    /**
+     * Waits for a selector to be visible on the page.
+     * @param {string} selector - The selector to wait for.
+     * @returns {Promise<void>}
+     */
 
       async waitForSelectorVisible(selector) {
         await page.waitForSelector(selector, {
@@ -21,11 +41,21 @@ class LoginPage {
         });
     }
 
+    /**
+     * Navigates to the login page.
+     * @returns {Promise<void>}
+     */
     async navigate() {
         await page.goto('https://qa-lab5.finesource.org/login.html'), { timeout: 50000 };
         await page.waitForLoadState('load');
     }
 
+    /**
+     * Performs supervisor login to the main page.
+     * @param {string} username - The username for login.
+     * @param {string} password - The password for login.
+     * @returns {Promise<void>}
+     */
     async supervisorLoginToMain(username, password) {
         await this.waitForSelectorVisible(this.elements.emailInput)
         await page.fill(this.elements.emailInput, username)
@@ -35,11 +65,21 @@ class LoginPage {
         await page.locator('#btn-login').click()
     }
 
+    /**
+     * Verifies supervisor login to the main page.
+     * @returns {Promise<void>}
+     */
     async supervisorLoginToMainSuccessfull() {
         await this.waitForSelectorVisible('#groupdName')
         await expect(page).toHaveURL('https://qa-lab5.finesource.org/index.php#/fs/modules/profile/profile.html');
     }
 
+    /**
+     * Performs agent login to the main page.
+     * @param {string} username - The username for login.
+     * @param {string} password - The password for login.
+     * @returns {Promise<void>}
+     */
     async AgentloginToMain(username, password) {
         await this.waitForSelectorVisible(this.elements.emailInput)
         await page.fill('input[name="email"]', username)
@@ -49,6 +89,10 @@ class LoginPage {
         await page.locator('#btn-login').click()
     }
 
+    /**
+     * Verifies agent login to the main page.
+     * @returns {Promise<void>}
+     */
     async agentLoginToMainSuccessfull() {
         await page.waitForSelector('#groupdName', {
             state: 'visible',
@@ -57,6 +101,10 @@ class LoginPage {
         await expect(page).toHaveURL('https://qa-lab5.finesource.org/index.php#/fs/modules/profile/profile.html');
     }
 
+    /**
+     * Creates a break.
+     * @returns {Promise<void>}
+     */
     async createBreak() {
         await page.waitForSelector('[data-title="Users"]', {
             state: 'visible',
@@ -90,7 +138,10 @@ class LoginPage {
          await page.locator('#breaks-table-body').getByRole('button').first().click();
     }
 
-    
+    /**
+     * Performs agent login to the voice channel.
+     * @returns {Promise<void>}
+     */
     async AgentloginToVoice() {
         await page.waitForSelector('#channel-voice-label-text', {
             state: 'visible',
@@ -99,6 +150,10 @@ class LoginPage {
         await page.locator('#channel-voice-label-text').getByText('Offline').click();
     }
 
+    /**
+     * Configures the voice channel.
+     * @returns {Promise<void>}
+     */
     async configureVoiceChannel() {
         await page.locator('//*[@id="s2id_voice-outbound-inbound-selector-select"]/a').click()
          await page.locator("//li[div[@class='select2-result-label' and contains(text(), 'OutboundCampaign_1')]]").click();

@@ -5,8 +5,10 @@ const { VoiceManagerPage } = require('../../page_object/voiceManager.page')
 const { CRMPage } = require('../../page_object/crm.page')
 const { TicketPage }=require('../../page_object/ticket.page')
 const { DashboardPage}= require('../../page_object/dashboard.page')
+const { DatabaseManagerPage }= require('../../page_object/databaseManager.page')
 
 const voiceManagerPage = new VoiceManagerPage();
+const databaseManagerPage =new DatabaseManagerPage();
 const dashboardPage=new DashboardPage();
 const ticketPage= new TicketPage();
 const crmPage = new CRMPage();
@@ -67,9 +69,6 @@ When('Agent apply for a break',async()=>{
    await breakpage.accessBreak();
 
 })
-// When('Supervisor receives authorization request for break and is clicked on Authorize button',async()=>{
-//    await breakpage.authorizeBreak();
-// })
 Then('Agent should be on break',async()=>{
    await breakpage.breakAppliedSuccessfully()
 
@@ -103,7 +102,7 @@ When ('User access ticket channel', async()=>{
 })
 
 When('Let user wait for 1 second before navigating to the dashboard page', async()=>{
-   await dashboardPage.accsessDashboardPage()
+   await dashboardPage.accessDashboardPage()
 })
 
 When('User selects the agent tab', async()=>{
@@ -116,3 +115,14 @@ Then('Verify agent is in idle state in ticket tab',async()=>{
    await dashboardPage.checkIdleState()
 })
 
+When('User access the voice manager tab to configure campaign settings for power preview',async()=>{
+   await voiceManagerPage.selectPowerPreviewDialer()
+})
+
+When('User access data manager menu',async()=>{
+   await databaseManagerPage.createDatabase()
+})
+When('User access dialer control menu from Real time tools',async()=>{
+   await dashboardPage.configureDialerControl()
+
+})

@@ -21,7 +21,8 @@ BeforeAll(async() =>{
         else{
             console.log(moonHost)  
             global.browser = await chromium.launch({
-                headless: false
+                headless: false,
+                slowMo:2000
             });
         }
 });
