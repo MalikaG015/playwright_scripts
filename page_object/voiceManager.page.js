@@ -101,7 +101,11 @@ class VoiceManagerPage {
         await page.click('//div[contains(text(),"Power Preview")]')
         await page.click('#finish-campaign')
         await page.click('#bot2-Msg1')
+    }
 
+    async powerPreviewCall(){
+        await page.click('#voice-field-first_phone-btn')
+        await page.click('#voiceControls-close')
     }
 }
 

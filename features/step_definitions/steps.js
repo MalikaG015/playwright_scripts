@@ -122,7 +122,15 @@ When('User access the voice manager tab to configure campaign settings for power
 When('User access data manager menu',async()=>{
    await databaseManagerPage.createDatabase()
 })
+
 When('User access dialer control menu from Real time tools',async()=>{
    await dashboardPage.configureDialerControl()
+})
 
+When('Preview filters on hopper table', async()=>{
+   await dashboardPage.previewHopper()
+})
+
+When('Dial call in power preview', async()=>{
+   await voiceManagerPage.powerPreviewCall()
 })

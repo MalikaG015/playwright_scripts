@@ -22,7 +22,7 @@ BeforeAll(async() =>{
             console.log(moonHost)  
             global.browser = await chromium.launch({
                 headless: false,
-                slowMo:2000
+                slowMo:1000
             });
         }
 });

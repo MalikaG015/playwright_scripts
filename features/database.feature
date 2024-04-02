@@ -6,11 +6,12 @@ Feature: Supervisor configures database and apply filters on dialer control menu
         # And User access the voice manager tab to configure campaign settings for power preview
         # And User access data manager menu
         And User access dialer control menu from Real time tools
-        # And Let user wait for 1 second before navigating to the dashboard page
-        # And User selects the agent tab
-        # And User selects the ticket tab
-        # Then Verify agent is in idle state in ticket tab
-
+        And Preview filters on hopper table
+        And Log in on the voice channel
+        And Agent chooses campaigns and queues
+        And Dial call in power preview 
+        Then Outcome is selected
+       
         Examples:
             | Username           | Password    |
             | admin@tests.surbhi | password123 |

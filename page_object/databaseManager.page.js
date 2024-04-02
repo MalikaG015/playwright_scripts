@@ -41,13 +41,14 @@ class DatabaseManagerPage {
         await page.fill('#new_db_name', 'Database_1')
         await page.click('#new_db_campaign_select');
         await page.selectOption('#new_db_campaign_select', { label: 'OutboundCampaign_1' });
-        await page.locator('#db_upload_file').setInputFiles(path.join('../../playwright', 'contacts_to_import.csv'));
+        await page.locator('#db_upload_file').setInputFiles(path.join('../../playwright', 'DB_GO-6564.csv'));
         await page.locator('#upload_new_db').click()
-        await page.locator('#contact').selectOption('FNAME')
-        await page.locator('#first_phone').selectOption('CELL')
-        await page.locator('#email').selectOption('EMAIL')
-        await page.locator('#city').selectOption('CITY')
-        await page.locator('#postal_code').selectOption('POSTAL CODE')
+        await page.locator('#contact').selectOption('Contact Name')
+        await page.locator('#first_phone').selectOption('1st phone')
+        await page.locator('#email').selectOption('Email')
+        await page.locator('#postal_code').selectOption('Postal Code')
+        await page.locator('#city').selectOption('City')
+        
         await page.click('#apply_matching_button')
         await page.click('//span[contains(text(),"Load Database")]')
     }
