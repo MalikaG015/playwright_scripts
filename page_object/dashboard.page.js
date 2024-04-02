@@ -152,6 +152,32 @@ class DashboardPage{
         const button = await page.$('button[data-dismiss="modal"][aria-hidden="true"][data-translate="close"]')
         await button.click()
     }
+
+    async configureFilters() {
+        console.log('aaaaaaaaaaaa')
+        await this.waitForSelectorVisible('a[data-title="Real Time Tools"]')
+        await page.locator('a[data-title="Real Time Tools"]').hover()
+        await page.click('//span[contains(text(),"Dialer control")]')
+        await this.wait(3)
+        await this.waitForSelectorVisible('#dialer-control-add-filter-group')
+        await page.click('#dialer-control-add-filter-group')
+        await page.click('//span[@id="dropdonw-caret"]')
+        await page.click('//b[contains(text(),"All")]')
+        const elements1 = await page.$$('.dropdown-option-text');
+        const thirdElement = elements1[2];
+        await thirdElement.click()
+        await page.mouse.click(100, 100);
+        const clickonSearchForFilter = await page.$$('[class="select2-choice"]');
+        await clickonSearchForFilter[1].click()
+        const clickonSearchforFilter = await page.$$('.select2-search');
+         await clickonSearchforFilter[3].click()
+         const selectedField = await page.$('div.select2-result-label:has-text("Not started by")');
+        await selectedField.click()
+        const inputElement = await page.$('input.dialer-control-filter-string');
+        await inputElement.type('1')
+        await page.click('#dialer-control-filter-save')
+        await page.click('#dialer-control-submit-filters')
+    }
 }
 
 module.exports={DashboardPage}

@@ -134,3 +134,10 @@ When('Preview filters on hopper table', async()=>{
 When('Dial call in power preview', async()=>{
    await voiceManagerPage.powerPreviewCall()
 })
+
+When('User access data manager menu for creating database', async()=>{
+   await databaseManagerPage.createDatabaseForNewFilters()
+})
+When('User access dialer control menu from Real time tools for configuring filters', async()=>{
+   await dashboardPage.configureFilters()
+})
