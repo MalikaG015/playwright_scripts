@@ -47,11 +47,14 @@ class CRMPage {
     await page.evaluate(() => {
       window.scrollTo(0, document.body.scrollHeight);
     });
-    await page.fill('#startDate', '2024-03-21')
-    await this.wait(2)
-    await page.fill('#endDate', '2024-03-21')
-    await this.waitForSelectorVisible('span[data-translate="search"]:nth-of-type(1)')
-    await page.click('span[data-translate="search"]:nth-of-type(1)')
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().slice(0,10);
+    await page.fill('#startDate', formattedDate)
+    await page.keyboard.press('Enter');
+    await page.fill('#endDate', formattedDate)
+    await page.keyboard.press('Enter');
+    const submitButton = await page.$$('button[type="submit"]');
+    await submitButton[1].click();
   }
 
   /**

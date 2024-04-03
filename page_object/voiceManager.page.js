@@ -72,6 +72,17 @@ class VoiceManagerPage {
         await page.click('#voiceControls-close')
     }
 
+    async makeCallWithDesiredNumber(){
+        await this.wait(13)
+        await page.click('#voiceControls-manual')
+        const textBox = await page.$('.popover.fade.bottom.in input[type="text"]');
+        await textBox.fill('990000003');
+        await page.keyboard.press('Enter');
+        await this.waitForSelectorVisible('#voice-field-first_phone-btn')
+        await page.click('#voice-field-first_phone-btn')
+        await page.click('#voiceControls-close')
+    }
+
     /**
      * Selects the outcome of the call.
      * @returns {Promise<void>}

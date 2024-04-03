@@ -157,5 +157,10 @@ When('User selects the webchat tab', async()=>{
 })
 
 Then('Verify agent is in idle state in webchat tab', async()=>{
+   await dashboardPage.checkIdleStateForWebchat()
+})
+
+When('Makes a call with desired number',async()=>{
+   await voiceManagerPage.makeCallWithDesiredNumber()
 
 })
