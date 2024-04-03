@@ -6,11 +6,13 @@ const { CRMPage } = require('../../page_object/crm.page')
 const { TicketPage }=require('../../page_object/ticket.page')
 const { DashboardPage}= require('../../page_object/dashboard.page')
 const { DatabaseManagerPage }= require('../../page_object/databaseManager.page')
+const { WebchatPage }= require('../../page_object/webchat.page')
 
 const voiceManagerPage = new VoiceManagerPage();
 const databaseManagerPage =new DatabaseManagerPage();
 const dashboardPage=new DashboardPage();
 const ticketPage= new TicketPage();
+const webchatPage= new WebchatPage();
 const crmPage = new CRMPage();
 const breakpage = new BreakPage();
 const loginpage = new LoginPage();
@@ -112,7 +114,7 @@ When('User selects the ticket tab', async()=>{
    await dashboardPage.accessTicketTab()
 })
 Then('Verify agent is in idle state in ticket tab',async()=>{
-   await dashboardPage.checkIdleState()
+   await dashboardPage.checkIdleStateForTicket()
 })
 
 When('User access the voice manager tab to configure campaign settings for power preview',async()=>{
@@ -144,4 +146,16 @@ When('User access dialer control menu from Real time tools for configuring filte
 
 When('Unauthorized break is configured by supervisor', async()=>{
    await loginpage.createUnauthorizedBreak()
+})
+
+When('User access webchat channel', async()=>{
+   await webchatPage.accessWebchatChannel()
+})
+
+When('User selects the webchat tab', async()=>{
+   await dashboardPage.accessWebchatTab()
+})
+
+Then('Verify agent is in idle state in webchat tab', async()=>{
+
 })

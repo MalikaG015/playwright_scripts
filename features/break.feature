@@ -14,32 +14,32 @@ Feature: Applying break on GoContact
             | Agent_1@tests.surbhi | password123 | 
 
     
-    # Scenario Outline: Supervisor is creating breaks
-    #     Given As a supervisor log in to the platform
-    #     When Supervisor logs in with correct email and password
-    #     And Break is configured by supervisor
-    #     And Supervisor is added in the break group
-    #     And Agent is added in the break group
-    #     Then Break should be successfully created
+    Scenario Outline: Supervisor is creating breaks
+        Given As a supervisor log in to the platform
+        When Supervisor logs in with correct email and password
+        And Break is configured by supervisor
+        And Supervisor is added in the break group
+        And Agent is added in the break group
+        Then Break should be successfully created
 
-    # Examples:
-    #         | Username           | Password    | 
-    #         | admin@tests.surbhi | password123 | 
+    Examples:
+            | Username           | Password    | 
+            | admin@tests.surbhi | password123 | 
     
 
-    # Agent chooses campaigns "<Campaign>" and queues "<Queue>"
+    Agent chooses campaigns "<Campaign>" and queues "<Queue>"
 
 
-    # Scenario Outline: Supervisor is creating unauthorized break
-    #     Given As a supervisor log in to the platform
-    #     When Supervisor logs in with correct email "<Username>" and password "<Password>"
-    #     And Unauthorized break is configured by supervisor
-    #     And Agent is added in the break group
-    #     Then Break should be successfully created
+    Scenario Outline: Supervisor is creating unauthorized break
+        Given As a supervisor log in to the platform
+        When Supervisor logs in with correct email "<Username>" and password "<Password>"
+        And Unauthorized break is configured by supervisor
+        And Agent is added in the break group
+        Then Break should be successfully created
 
-    #     Examples:
-    #         | Username           | Password    |
-    #         | admin@tests.surbhi | password123 |
+        Examples:
+            | Username           | Password    |
+            | admin@tests.surbhi | password123 |
 
 
 

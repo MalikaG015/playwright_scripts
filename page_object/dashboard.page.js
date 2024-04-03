@@ -60,12 +60,26 @@ class DashboardPage{
     }
 
     /**
+     * Accesses the webchat tab.
+     * @returns {Promise<void>}
+     */
+    async accessWebchatTab(){
+        await page.click('#webchat-tab')
+    }
+
+    /**
      * Checks if the agent is in idle state.
      * @returns {Promise<expect>}
      */
-    async checkIdleState() {
+    async checkIdleStateForTicket() {
         const agentStateElement = await page.locator('//td[contains(text(),"Idle")]');
         const agentState = await agentStateElement.textContent();
+        return expect(agentState).toBe('Idle');
+    }
+
+    async checkIdleStateForWebchat() {
+        const agentStateElement = await page.$('tr.odd td:nth-child(2)');
+        const agentState = await agentStateElement[2].textContent();
         return expect(agentState).toBe('Idle');
     }
 
