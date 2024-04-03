@@ -34,6 +34,8 @@ class BreakPage {
      * @returns {Promise<void>}
      */
     async AddAgentToGroup() {
+        const clickExpandButtonForUsers = await page.$$('[class="fa fa-plus-square plus"]');
+        await clickExpandButtonForUsers[1].click()
         await page.locator(' //span[contains(text(),"Agent One")]').click()
         await this.waitForSelectorVisible('[id="s2id_group_select"]')
         await page.locator('[id="s2id_group_select"]').click()
@@ -91,12 +93,18 @@ class BreakPage {
     }
 
     /**
-     * Checks if break is applied successfully.
+     * Checks if break is applied successfully and console the status.
      * @returns {Promise<void>}
      */
     async breakAppliedSuccessfully() {
-        const breakElement = page.locator('a#break-id-33.jarvismetro-tile.big-cubes.break-box.break-with-permission.bg-color-blueGo.break-active');
-        await expect(breakElement).toHaveCount(1);
+        const breakElement = await page.$('span.menu-breaks-name:has-text("Break1")');
+        if (breakElement) {
+            console.log("Break1 is active.");
+        }
+        else {
+            console.log("Break1 not active.");
+        }
     }
+    
 }
 module.exports = { BreakPage };

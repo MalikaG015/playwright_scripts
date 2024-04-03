@@ -141,3 +141,7 @@ When('User access data manager menu for creating database', async()=>{
 When('User access dialer control menu from Real time tools for configuring filters', async()=>{
    await dashboardPage.configureFilters()
 })
+
+When('Unauthorized break is configured by supervisor', async()=>{
+   await loginpage.createUnauthorizedBreak()
+})

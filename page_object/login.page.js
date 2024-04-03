@@ -143,10 +143,7 @@ class LoginPage {
      * @returns {Promise<void>}
      */
     async AgentloginToVoice() {
-        await page.waitForSelector('#channel-voice-label-text', {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        });
+        await this.waitForSelectorVisible('#channel-voice-label-text')
         await page.locator('#channel-voice-label-text').getByText('Offline').click();
     }
 
@@ -165,7 +162,22 @@ class LoginPage {
         await expect(page.locator('#voice-login-submit')).toBeVisible()
         await page.click('#voice-login-submit');
     }
-    
+
+    async createUnauthorizedBreak() {
+        await this.waitForSelectorVisible('[data-title="Users"]')
+        await page.locator('[data-title="Users"]').hover();
+        await this.waitForSelectorVisible('//span[contains(text(),"Groups & users")]')
+        await page.locator('//span[contains(text(),"Groups & users")]').click()
+        await this.waitForSelectorVisible('//span[contains(text(),"Group_1")]')
+        await page.locator('//span[contains(text(),"Group_1")]').click()
+        await this.waitForSelectorVisible('//span[contains(text(),"Add break")]')
+        await page.locator('//span[contains(text(),"Add break")]').click();
+        await page.locator('(//input[@placeholder="Morning Breaks"])').fill('Break1');
+        await page.locator('input.form-control.timepick-input.new-timepick-init.text-center.react-to-pointer-event-on-disabled[placeholder="HH:MM"]').fill('10:00');
+        await page.locator('input.form-control.timepick-input.new-timepick-end.text-center.react-to-pointer-event-on-disabled[placeholder="HH:MM"]').fill('23:00');
+        await page.locator('input.form-control.spinner-both.new-break-max-time.text-align-center.react-to-pointer-event-on-disabled.ui-spinner-input[placeholder="MM"]').fill('60');
+        await page.locator('#breaks-table-body').getByRole('button').first().click();
+    }    
 }
 
 module.exports = { LoginPage };
