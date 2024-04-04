@@ -1,40 +1,16 @@
 const { expect } = require('@playwright/test')
-var { setDefaultTimeout } = require('cucumber');
-setDefaultTimeout = (60 * 1000);
+const BasePage = require('./base_actions.page')
 
 /**
  * Represents the functionalities related to the dashboard.
  */
-class DashboardPage{
-
-    /**
-     * Waits for a specified time.
-     * @param {number} time - The time to wait in seconds.
-     * @returns {Promise<void>}
-     */
-    async wait(time) {
-        return new Promise(function (resolve) {
-          setTimeout(resolve, time * 1000);
-        });
-      }
-
-      /**
-     * Waits for a selector to be visible on the page.
-     * @param {string} selector - The selector to wait for.
-     * @returns {Promise<void>}
-     */
-      async waitForSelectorVisible(selector) {
-        await page.waitForSelector(selector, {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        });
-    }
+class DashboardPage extends BasePage {
 
     /**
      * Accesses the dashboard page.
      * @returns {Promise<void>}
      */
-    async accessDashboardPage(){
+    async accessDashboardPage() {
         await this.wait(1)
         await this.waitForSelectorVisible('[data-title="Real Time Tools"]')
         await page.locator('[data-title="Real Time Tools"]').hover();
@@ -47,7 +23,7 @@ class DashboardPage{
      * Accesses the agent tab.
      * @returns {Promise<void>}
      */
-    async accessAgentTab(){
+    async accessAgentTab() {
         await page.click('#agents-tab')
     }
 
@@ -55,7 +31,7 @@ class DashboardPage{
      * Accesses the ticket tab.
      * @returns {Promise<void>}
      */
-    async accessTicketTab(){
+    async accessTicketTab() {
         await page.click('#tickets-tab')
     }
 
@@ -63,7 +39,7 @@ class DashboardPage{
      * Accesses the webchat tab.
      * @returns {Promise<void>}
      */
-    async accessWebchatTab(){
+    async accessWebchatTab() {
         await page.click('#webchat-tab')
     }
 
@@ -96,8 +72,6 @@ class DashboardPage{
         await this.waitForSelectorVisible('#dialer-control-add-filter-group')
         await page.click('#dialer-control-add-filter-group')
         await page.click('//span[@id="dropdonw-caret"]')
-        // const dropdownForDatabase = await page.$$('//span[@id="dropdonw-caret"]');
-        // await dropdownForDatabase[0].click();
         const disbleAllOptionFromDatabase = await page.$$('//b[contains(text(),"All")]');
         await disbleAllOptionFromDatabase[0].click()
         const elements = await page.$$('.dropdown-option-text');
@@ -107,55 +81,55 @@ class DashboardPage{
         const selectFieldForFilter1 = await page.$$('div.select2-container');
         await selectFieldForFilter1[0].click()
         const clickonSearchforFilter1 = await page.$$('.select2-search');
-         await clickonSearchforFilter1[3].click()
-         const selectedFieldForFilter1 = await page.$('div.select2-result-label:has-text("Time of day")');
+        await clickonSearchforFilter1[3].click()
+        const selectedFieldForFilter1 = await page.$('div.select2-result-label:has-text("Time of day")');
         await selectedFieldForFilter1.click()
         await this.waitForSelectorVisible('[class="dialer-control-filter-hour-1 form-control input"]')
         await page.fill('[class="dialer-control-filter-hour-1 form-control input"]', '00:00')
         await this.waitForSelectorVisible('[class="dialer-control-filter-hour-2 form-control input"]')
         await page.fill('[class="dialer-control-filter-hour-2 form-control input"]', '23:59')
         await page.click('#dialer-control-add-filter-0')
- 
+
         // creating Filter-2
         const dropdownForDatabase1 = await page.$$('//span[@id="dropdonw-caret"]');
-         await dropdownForDatabase1[1].click();
-         const disbleAllOptionFromDatabase1 = await page.$$('//b[contains(text(),"All")]');
-         await disbleAllOptionFromDatabase1[1].click()
-         const elements1 = await page.$$('.dropdown-option-text');
-         const sixthElement = elements1[5];
-         await sixthElement.click()
-         await page.mouse.click(100, 100);
-         const selectField = await page.$$('div.select2-container');
-         await selectField[2].click()
-         const clickonSearchForFilter2 = await page.$$('.select2-search');
-         await clickonSearchForFilter2[5].click()
-         const selectedField1 = await page.$('div.select2-result-label:has-text("City")');
+        await dropdownForDatabase1[1].click();
+        const disbleAllOptionFromDatabase1 = await page.$$('//b[contains(text(),"All")]');
+        await disbleAllOptionFromDatabase1[1].click()
+        const elements1 = await page.$$('.dropdown-option-text');
+        const sixthElement = elements1[5];
+        await sixthElement.click()
+        await page.mouse.click(100, 100);
+        const selectField = await page.$$('div.select2-container');
+        await selectField[2].click()
+        const clickonSearchForFilter2 = await page.$$('.select2-search');
+        await clickonSearchForFilter2[5].click()
+        const selectedField1 = await page.$('div.select2-result-label:has-text("City")');
         await selectedField1.click()
         const inputElement = await page.$('input.dialer-control-filter-string');
-         await inputElement.type('Lisboa');
-         await page.click('#dialer-control-add-filter-0')
+        await inputElement.type('Lisboa');
+        await page.click('#dialer-control-add-filter-0')
 
-         //creating filter-3
-         const dropdownForDatabase2 = await page.$$('//span[@id="dropdonw-caret"]');
-         await dropdownForDatabase2[2].click();
-         const disbleAllOptionFromDatabase2 = await page.$$('//b[contains(text(),"All")]');
-         await disbleAllOptionFromDatabase2[2].click()
-         const elements2 = await page.$$('.dropdown-option-text');
-         const ninthElement = elements2[8];
-         await ninthElement.click()
-         await page.mouse.click(100, 100);
-         const filterType = await page.$$('[class="select2-container dialer-control-filter-type required"]')
-         await filterType[1].click()
-         const clickonSearchforFilter3 = await page.$$('.select2-search');
-         await clickonSearchforFilter3[7].click()
-         const selectedField2 = await page.$('div.select2-result-label:has-text("Started by")');
+        //creating filter-3
+        const dropdownForDatabase2 = await page.$$('//span[@id="dropdonw-caret"]');
+        await dropdownForDatabase2[2].click();
+        const disbleAllOptionFromDatabase2 = await page.$$('//b[contains(text(),"All")]');
+        await disbleAllOptionFromDatabase2[2].click()
+        const elements2 = await page.$$('.dropdown-option-text');
+        const ninthElement = elements2[8];
+        await ninthElement.click()
+        await page.mouse.click(100, 100);
+        const filterType = await page.$$('[class="select2-container dialer-control-filter-type required"]')
+        await filterType[1].click()
+        const clickonSearchforFilter3 = await page.$$('.select2-search');
+        await clickonSearchforFilter3[7].click()
+        const selectedField2 = await page.$('div.select2-result-label:has-text("Started by")');
         await selectedField2.click()
         const dataForFilter3 = await page.$$('[class="dialer-control-filter-string form-control input"]');
         await dataForFilter3[2].type('1');
         await page.click('#dialer-control-filter-save')
         await page.click('#dialer-control-submit-filters')
     }
-    
+
     async previewHopper() {
         await this.waitForSelectorVisible('a[data-title="Real Time Tools"]')
         await page.locator('a[data-title="Real Time Tools"]').hover()
@@ -168,7 +142,6 @@ class DashboardPage{
     }
 
     async configureFilters() {
-        console.log('aaaaaaaaaaaa')
         await this.waitForSelectorVisible('a[data-title="Real Time Tools"]')
         await page.locator('a[data-title="Real Time Tools"]').hover()
         await page.click('//span[contains(text(),"Dialer control")]')
@@ -184,8 +157,8 @@ class DashboardPage{
         const clickonSearchForFilter = await page.$$('[class="select2-choice"]');
         await clickonSearchForFilter[1].click()
         const clickonSearchforFilter = await page.$$('.select2-search');
-         await clickonSearchforFilter[3].click()
-         const selectedField = await page.$('div.select2-result-label:has-text("Not started by")');
+        await clickonSearchforFilter[3].click()
+        const selectedField = await page.$('div.select2-result-label:has-text("Not started by")');
         await selectedField.click()
         const inputElement = await page.$('input.dialer-control-filter-string');
         await inputElement.type('1')
@@ -194,5 +167,5 @@ class DashboardPage{
     }
 }
 
-module.exports={DashboardPage}
+module.exports = { DashboardPage }
 

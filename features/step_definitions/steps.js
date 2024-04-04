@@ -17,16 +17,16 @@ const crmPage = new CRMPage();
 const breakpage = new BreakPage();
 const loginpage = new LoginPage();
 
-Given('As a supervisor log in to the platform', async () => {
+Given('As a user log in to the platform', async () => {
    await loginpage.navigate();
 });
 
-When('Supervisor logs in with correct email {string} and password {string}', async (username, password) => {
-   await loginpage.supervisorLoginToMain(username, password);
+Given('User logs in with correct email {string} and password {string}', async (username, password) => {
+   await loginpage.userLoginToMain(username, password);
 })
 
-Then('Supervisor login should be successfull', async () => {
-   await loginpage.supervisorLoginToMainSuccessfull();
+Then('User login should be successful', async () => {
+   await loginpage.loginToMainSuccessfull();
 })
 
 When('Break is configured by supervisor', async () => {
@@ -45,24 +45,10 @@ Then('Break should be successfully created', async () => {
    await breakpage.breakCreatedSuccessful();
 });
 
-//=================================Agent related activities
-Given('As an agent log in to the platform', async () => {
-   await loginpage.navigate();
-});
-
-When('Agent logs in with correct email {string} and password {string}', async (username, password) => {
-   await loginpage.AgentloginToMain(username, password);
-});
-
-Then('Agent login should be successfull', async () => {
-   await loginpage.agentLoginToMainSuccessfull()
-});
-
-When('Log in on the voice channel',async()=>{
+Given('Log in on the voice channel',async()=>{
    await loginpage.AgentloginToVoice();
 })
 
-//Agent chooses campaigns {string} and queues {string}
 When('Agent chooses campaigns and queues',async()=>{
    await loginpage.configureVoiceChannel();
 })
@@ -162,5 +148,4 @@ Then('Verify agent is in idle state in webchat tab', async()=>{
 
 When('Makes a call with desired number',async()=>{
    await voiceManagerPage.makeCallWithDesiredNumber()
-
 })

@@ -1,34 +1,10 @@
 const { expect } = require('@playwright/test')
-var { setDefaultTimeout } = require('cucumber');
-setDefaultTimeout = (60 * 1000);
+const BasePage = require('./base_actions.page')
 
 /**
  * Represents functionalities related to CRM operations.
  */
-class CRMPage {
-
-  /**
-   * Waits for a specified time.
-   * @param {number} time - The time to wait in seconds.
-   * @returns {Promise<void>}
-   */
-  async wait(time) {
-    return new Promise(function (resolve) {
-      setTimeout(resolve, time * 1000);
-    });
-  }
-
-  /**
-   * Waits for a selector to be visible on the page.
-   * @param {string} selector - The selector to wait for.
-   * @returns {Promise<void>}
-   */
-  async waitForSelectorVisible(selector) {
-    await page.waitForSelector(selector, {
-      state: 'visible',
-      timeout: setDefaultTimeout,
-    });
-  }
+class CRMPage extends BasePage {
 
   /**
    * Checks CRM functionalities.
@@ -36,13 +12,13 @@ class CRMPage {
    */
   async checkCRM() {
     await this.waitForSelectorVisible('[id="menu_5"]')
-    await page.locator('[id="menu_5"]').hover();
-    await page.locator('#menu_20').click();
+    await page.locator('[id="menu_5"]').hover()
+    await page.click('#menu_20')
     await this.waitForSelectorVisible('#owner-type-div label')
-    await page.locator('#owner-type-div label').filter({ hasText: 'Outbound' }).locator('i').click();
+    await page.click('#owner-type-div label').filter({ hasText: 'Outbound' }).locator('i')
     await page.click('[id="s2id_select_campaign"]')
-    await page.getByRole('option', { name: 'OutboundCampaign_1' }).click();
-    await page.locator('label').filter({ hasText: 'Calls' }).locator('i').click();
+    await page.getByRole('option', { name: 'OutboundCampaign_1' }).click()
+    await page.click('label').filter({ hasText: 'Calls' }).locator('i')
     await page.waitForLoadState('load');
     await page.evaluate(() => {
       window.scrollTo(0, document.body.scrollHeight);
@@ -64,6 +40,5 @@ class CRMPage {
   async callRegisteredSuccessfully() {
     await expect(page.locator('//*[@id="table_search_result_calls"]/tbody')).toHaveCount(1)
   }
-
 }
 module.exports = { CRMPage }

@@ -1,13 +1,11 @@
 const { expect } = require('@playwright/test')
-var {setDefaultTimeout} = require('cucumber');
-setDefaultTimeout=(60 * 1000);
+const BasePage = require('./base_actions.page')
 
 /**
  * Represents the login page functionalities.
  */
 
-class LoginPage {
-    //restrucure, js doc, datatype, return type, params
+class LoginPage extends BasePage {
     /**
      * Elements on the login page.
      * @type {Object}
@@ -17,28 +15,6 @@ class LoginPage {
     elements = {
         emailInput: 'input[name="email"]',
         passwordInput: 'input[name="password"]'
-    }
-    /**
-     * Waits for a specified time.
-     * @param {number} time - The time to wait in seconds.
-     * @returns {Promise<void>}
-     */
-     async wait(time) {
-        return new Promise(function (resolve) {
-          setTimeout(resolve, time * 1000);
-        });
-      }
-    /**
-     * Waits for a selector to be visible on the page.
-     * @param {string} selector - The selector to wait for.
-     * @returns {Promise<void>}
-     */
-
-      async waitForSelectorVisible(selector) {
-        await page.waitForSelector(selector, {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        });
     }
 
     /**
@@ -56,7 +32,7 @@ class LoginPage {
      * @param {string} password - The password for login.
      * @returns {Promise<void>}
      */
-    async supervisorLoginToMain(username, password) {
+    async userLoginToMain(username, password) {
         await this.waitForSelectorVisible(this.elements.emailInput)
         await page.fill(this.elements.emailInput, username)
         await this.waitForSelectorVisible(this.elements.passwordInput)
@@ -69,35 +45,8 @@ class LoginPage {
      * Verifies supervisor login to the main page.
      * @returns {Promise<void>}
      */
-    async supervisorLoginToMainSuccessfull() {
+    async loginToMainSuccessfull() {
         await this.waitForSelectorVisible('#groupdName')
-        await expect(page).toHaveURL('https://qa-lab5.finesource.org/index.php#/fs/modules/profile/profile.html');
-    }
-
-    /**
-     * Performs agent login to the main page.
-     * @param {string} username - The username for login.
-     * @param {string} password - The password for login.
-     * @returns {Promise<void>}
-     */
-    async AgentloginToMain(username, password) {
-        await this.waitForSelectorVisible(this.elements.emailInput)
-        await page.fill('input[name="email"]', username)
-        await this.waitForSelectorVisible(this.elements.passwordInput)
-        await page.fill('input[name="password"]', password)
-        await this.waitForSelectorVisible('#btn-login')
-        await page.locator('#btn-login').click()
-    }
-
-    /**
-     * Verifies agent login to the main page.
-     * @returns {Promise<void>}
-     */
-    async agentLoginToMainSuccessfull() {
-        await page.waitForSelector('#groupdName', {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        });
         await expect(page).toHaveURL('https://qa-lab5.finesource.org/index.php#/fs/modules/profile/profile.html');
     }
 
@@ -106,29 +55,13 @@ class LoginPage {
      * @returns {Promise<void>}
      */
     async createBreak() {
-        await page.waitForSelector('[data-title="Users"]', {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        })
+        await this.waitForSelectorVisible('[data-title="Users"]')
         await page.locator('[data-title="Users"]').hover();
-        await page.waitForSelector('//span[contains(text(),"Groups & users")]', {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        })
+        await this.waitForSelectorVisible('//span[contains(text(),"Groups & users")]')
         await page.locator('//span[contains(text(),"Groups & users")]').click()
-       // await page.waitForNavigation({waitUntil:"networkidle0"})
-        await page.waitForSelector('//span[contains(text(),"Group_1")]', {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-            //waitUntil: 'networkidle0',
-        });
-
+        await this.waitForSelectorVisible('//span[contains(text(),"Group_1")]')
         await page.locator('//span[contains(text(),"Group_1")]').click()
-
-        await page.waitForSelector('//span[contains(text(),"Add break")]', {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        });
+        await this.waitForSelectorVisible('//span[contains(text(),"Add break")]')
         await page.locator('//span[contains(text(),"Add break")]').click();
         await page.locator('(//input[@placeholder="Morning Breaks"])').fill('Break1');
         await page.locator('input.form-control.timepick-input.new-timepick-init.text-center.react-to-pointer-event-on-disabled[placeholder="HH:MM"]').fill('10:00');

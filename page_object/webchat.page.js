@@ -1,41 +1,17 @@
-var { setDefaultTimeout } = require('cucumber');
-setDefaultTimeout = (60 * 1000);
+const BasePage = require('./base_actions.page')
 
 /**
  * Represents the functionalities related to ticket management.
  */
-class WebchatPage{
-
+class WebchatPage extends BasePage {
   /**
-    * Waits for a specified time.
-    * @param {number} time - The time to wait in seconds.
-    * @returns {Promise<void>}
-    */
-    async wait(time) {
-        return new Promise(function (resolve) {
-          setTimeout(resolve, time * 1000);
-        });
-      }
+   * Accesses the webchat channel.
+   * @returns {Promise<void>}
+   */
 
-    /**
-     * Waits for a selector to be visible on the page.
-     * @param {string} selector - The selector to wait for.
-     * @returns {Promise<void>}
-     */
-      async waitForSelectorVisible(selector) {
-        await page.waitForSelector(selector, {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        });
-    }
-
-    /**
-     * Accesses the webchat channel.
-     * @returns {Promise<void>}
-     */
-    
-    async accessWebchatChannel(){
-        await page.click('#channel-webchat-connection-toggle')
-    }
+  async accessWebchatChannel() {
+    await page.click('#channel-webchat-connection-toggle')
+  }
 }
-module.exports={WebchatPage}
+
+module.exports = { WebchatPage }

@@ -1,47 +1,22 @@
 const { expect } = require('@playwright/test')
-var { setDefaultTimeout } = require('cucumber');
-setDefaultTimeout = (60 * 1000);
+const BasePage = require('./base_actions.page')
 
 /**
  * Represents functionalities related to breaks management.
  */
-class BreakPage {
-    /**
-     * Waits for a specified time.
-     * @param {number} time - The time to wait in seconds.
-     * @returns {Promise<void>}
-     */
-    async wait(time) {
-        return new Promise(function (resolve) {
-            setTimeout(resolve, time * 1000);
-        });
-    }
-
-    /**
-     * Waits for a selector to be visible on the page.
-     * @param {string} selector - The selector to wait for.
-     * @returns {Promise<void>}
-     */
-    async waitForSelectorVisible(selector) {
-        await page.waitForSelector(selector, {
-            state: 'visible',
-            timeout: setDefaultTimeout,
-        });
-    }
+class BreakPage extends BasePage {
 
     /**
      * Adds an agent to a group.
      * @returns {Promise<void>}
      */
     async AddAgentToGroup() {
-        const clickExpandButtonForUsers = await page.$$('[class="fa fa-plus-square plus"]');
-        await clickExpandButtonForUsers[1].click()
-        await page.locator(' //span[contains(text(),"Agent One")]').click()
+        await page.click(' //span[contains(text(),"Agent One")]')
         await this.waitForSelectorVisible('[id="s2id_group_select"]')
-        await page.locator('[id="s2id_group_select"]').click()
+        await page.click('[id="s2id_group_select"]')
         await this.waitForSelectorVisible('//div[@class="select2-result-label" and contains(text(), "Group_1")]')
-        await page.locator('//div[@class="select2-result-label" and contains(text(), "Group_1")]').click();
-        await page.locator('span[data-translate="btn-save"]').click()
+        await page.click('//div[@class="select2-result-label" and contains(text(), "Group_1")]')
+        await page.click('span[data-translate="btn-save"]')
     }
 
     /**
@@ -50,15 +25,13 @@ class BreakPage {
      */
     async AddSupervisorToGroup() {
         await this.waitForSelectorVisible('span[data-translate="user-nav-title"]')
-        await page.locator('span[data-translate="user-nav-title"]').click()
-        await page.locator('//span[contains(text(),"Supervisor One")]').click()
+        await page.click('span[data-translate="user-nav-title"]')
+        await page.click('//span[contains(text(),"Supervisor One")]')
         await this.waitForSelectorVisible('[id="s2id_group_select"]')
-        await page.locator('[id="s2id_group_select"]').click()
+        await page.click('[id="s2id_group_select"]')
         await this.waitForSelectorVisible('//div[@class="select2-result-label" and contains(text(), "Group_1")]')
-        await page.locator('//div[@class="select2-result-label" and contains(text(), "Group_1")]').click();
-        await page.locator('span[data-translate="btn-save"]').click()
-        //await this.waitForSelectorVisible('#divbigBoxes')
-        // await expect(page.locator('#divbigBoxes')).toHaveText('/Agent saved/')
+        await page.click('//div[@class="select2-result-label" and contains(text(), "Group_1")]')
+        await page.click('span[data-translate="btn-save"]')
     }
 
     /**
@@ -66,7 +39,7 @@ class BreakPage {
      * @returns {Promise<void>}
      */
     async breakCreatedSuccessful() {
-        await page.locator('i.break-header-btn[data-translate="breaksTitle"]').click()
+        await page.click('i.break-header-btn[data-translate="breaksTitle"]')
         await this.waitForSelectorVisible('span.menu-breaks-name[title="Break1"]')
         await expect(page.locator('span.menu-breaks-name[title="Break1"]')).toBeVisible()
     }
@@ -76,7 +49,6 @@ class BreakPage {
      * @returns {Promise<void>}
      */
     async selectBreakGroup() {
-        //await page.getByLabel('Groups (3) Add').locator('label').filter({ hasText: 'Group_1' }).click();
         await page.getByLabel('Groups (3) Add').getByText('Group_1').click();
     }
 
@@ -87,9 +59,9 @@ class BreakPage {
     async accessBreak() {
         await this.wait(10);
         await this.waitForSelectorVisible('i.break-header-btn[data-translate="breaksTitle"]')
-        await page.locator('i.break-header-btn[data-translate="breaksTitle"]').click()
+        await page.click('i.break-header-btn[data-translate="breaksTitle"]')
         await this.waitForSelectorVisible('span.menu-breaks-name[title="Break1"]')
-        await page.locator('span.menu-breaks-name[title="Break1"]').click()
+        await page.click('span.menu-breaks-name[title="Break1"]')
     }
 
     /**
