@@ -1,0 +1,15 @@
+{
+    "url": "https://qa-lab5.finesource.org/login.html",
+    "users": {
+      "agent": {
+        "username": "Agent_1@tests.surbhi",
+        "password": "password123"
+      },
+      "supervisor": {
+        "username": "admin@tests.surbhi",
+        "password": "password123"
+      }
+    },
+    "expectedUrl": "https://qa-lab5.finesource.org/index.php#/fs/modules/profile/profile.html"
+  }
+  

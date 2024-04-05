@@ -43,4 +43,5 @@ class DatabaseManagerPage extends BasePage {
         await this.createNewDatabase('DB_GOTEST-6364.csv');
     }
 }
+
 module.exports = { DatabaseManagerPage }

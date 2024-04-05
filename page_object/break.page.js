@@ -56,19 +56,24 @@ class BreakPage extends BasePage {
      * Accesses a break.
      * @returns {Promise<void>}
      */
-    async accessBreak() {
+    async accessBreak(page) {
         await this.wait(10);
-        await this.waitForSelectorVisible('i.break-header-btn[data-translate="breaksTitle"]')
+        await this.waitForSelectorVisible(page,'i.break-header-btn[data-translate="breaksTitle"]')
         await page.click('i.break-header-btn[data-translate="breaksTitle"]')
-        await this.waitForSelectorVisible('span.menu-breaks-name[title="Break1"]')
+        await this.waitForSelectorVisible(page,'span.menu-breaks-name[title="Break1"]')
         await page.click('span.menu-breaks-name[title="Break1"]')
+        await this.wait(5)
+    }
+
+    async authorizeBreak(page){
+        await page.click('#bigBoxAuthorize')
     }
 
     /**
      * Checks if break is applied successfully and console the status.
      * @returns {Promise<void>}
      */
-    async breakAppliedSuccessfully() {
+    async breakAppliedSuccessfully(page) {
         const breakElement = await page.$('span.menu-breaks-name:has-text("Break1")');
         if (breakElement) {
             console.log("Break1 is active.");
@@ -76,7 +81,7 @@ class BreakPage extends BasePage {
         else {
             console.log("Break1 not active.");
         }
-    }
-    
+
+}
 }
 module.exports = { BreakPage };

@@ -13,10 +13,12 @@ class DashboardPage extends BasePage {
     async accessDashboardPage() {
         await this.wait(1)
         await this.waitForSelectorVisible('[data-title="Real Time Tools"]')
+        //multi window concept in playwright
+        //this.mouseHover('locator',session)
+        //session 1st is def
         await page.locator('[data-title="Real Time Tools"]').hover();
         await this.waitForSelectorVisible('//span[contains(text(),"Dashboards")]')
         await page.locator('//span[contains(text(),"Dashboards")]').click()
-
     }
 
     /**

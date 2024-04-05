@@ -1,4 +1,6 @@
 const { Given, When, Then } = require('cucumber')
+const BasePage  = require('../../page_object/base_actions.page');
+const config = require('../../config.json')
 const { BreakPage } = require('../../page_object/break.page')
 const { LoginPage } = require('../../page_object/login.page');
 const { VoiceManagerPage } = require('../../page_object/voiceManager.page')
@@ -8,6 +10,7 @@ const { DashboardPage}= require('../../page_object/dashboard.page')
 const { DatabaseManagerPage }= require('../../page_object/databaseManager.page')
 const { WebchatPage }= require('../../page_object/webchat.page')
 
+const basePage = new BasePage();
 const voiceManagerPage = new VoiceManagerPage();
 const databaseManagerPage =new DatabaseManagerPage();
 const dashboardPage=new DashboardPage();
@@ -18,15 +21,26 @@ const breakpage = new BreakPage();
 const loginpage = new LoginPage();
 
 Given('As a user log in to the platform', async () => {
-   await loginpage.navigate();
-});
-
-Given('User logs in with correct email {string} and password {string}', async (username, password) => {
-   await loginpage.userLoginToMain(username, password);
+   await loginpage.navigate(config.url);
+   await loginpage.navigate(config.url, true); 
 })
 
-Then('User login should be successful', async () => {
-   await loginpage.loginToMainSuccessfull();
+Given('Agent logs in with correct email and password', async()=>{
+  // await basePage.setupBrowserContext();
+    await loginpage.userLoginToMain(global.agentPage, config.users.agent.username, config.users.agent.password);
+})
+
+Given('Supervisor logs in with correct email and password', async () => {
+   //await basePage.setupBrowserContext(); 
+    await loginpage.userLoginToMain(global.supervisorPage, config.users.supervisor.username, config.users.supervisor.password);
+})
+
+Then('Supervisor login should be successful', async () => {
+   await loginpage.loginToMainSuccessfull(global.supervisorPage);
+})
+
+Then('Agent login should be successful', async () => {
+   await loginpage.loginToMainSuccessfull(global.agentPage);
 })
 
 When('Break is configured by supervisor', async () => {
@@ -46,19 +60,23 @@ Then('Break should be successfully created', async () => {
 });
 
 Given('Log in on the voice channel',async()=>{
-   await loginpage.AgentloginToVoice();
+   await loginpage.AgentloginToVoice(global.agentPage);
 })
 
 When('Agent chooses campaigns and queues',async()=>{
-   await loginpage.configureVoiceChannel();
+   await loginpage.configureVoiceChannel(global.agentPage);
 })
 
 When('Agent apply for a break',async()=>{
-   await breakpage.accessBreak();
-
+   await breakpage.accessBreak(global.agentPage);
 })
+
+When('Supervisor authorize the break request', async()=>{
+   await breakpage.authorizeBreak(global.supervisorPage);
+})
+
 Then('Agent should be on break',async()=>{
-   await breakpage.breakAppliedSuccessfully()
+   await breakpage.breakAppliedSuccessfully(global.agentPage)
 
 })
 When('Access the voice manager tab to configure campaign settings', async () => {
@@ -103,7 +121,7 @@ Then('Verify agent is in idle state in ticket tab',async()=>{
    await dashboardPage.checkIdleStateForTicket()
 })
 
-When('User access the voice manager tab to configure campaign settings for power preview',async()=>{
+Given('User access the voice manager tab to configure campaign settings for power preview',async()=>{
    await voiceManagerPage.selectPowerPreviewDialer()
 })
 
@@ -130,7 +148,7 @@ When('User access dialer control menu from Real time tools for configuring filte
    await dashboardPage.configureFilters()
 })
 
-When('Unauthorized break is configured by supervisor', async()=>{
+When('Supervisor authorize the break requestr', async()=>{
    await loginpage.createUnauthorizedBreak()
 })
 

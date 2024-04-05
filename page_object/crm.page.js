@@ -41,4 +41,5 @@ class CRMPage extends BasePage {
     await expect(page.locator('//*[@id="table_search_result_calls"]/tbody')).toHaveCount(1)
   }
 }
+
 module.exports = { CRMPage }

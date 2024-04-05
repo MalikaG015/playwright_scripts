@@ -1,5 +1,6 @@
 const { expect } = require('@playwright/test')
 const BasePage = require('./base_actions.page')
+const config = require('../config.json')
 
 /**
  * Represents the login page functionalities.
@@ -21,33 +22,42 @@ class LoginPage extends BasePage {
      * Navigates to the login page.
      * @returns {Promise<void>}
      */
-    async navigate() {
-        await page.goto('https://qa-lab5.finesource.org/login.html'), { timeout: 50000 };
-        await page.waitForLoadState('load');
+    // async navigate(url) {
+    //     await page.goto(url), { timeout: 50000 };
+    //     await page.waitForLoadState('load');
+    // }
+    async navigate(url, isSupervisor = false) {
+        await global.agentPage.goto(url, { timeout: 50000 });
+        await global.supervisorPage.waitForLoadState('load');
+        
+        if (isSupervisor) {
+            await global.supervisorPage.goto(url, { timeout: 50000 });
+            await global.supervisorPage.waitForLoadState('load');
+        }
     }
 
     /**
-     * Performs supervisor login to the main page.
+     * Performs user login to the main page.
      * @param {string} username - The username for login.
      * @param {string} password - The password for login.
      * @returns {Promise<void>}
      */
-    async userLoginToMain(username, password) {
-        await this.waitForSelectorVisible(this.elements.emailInput)
-        await page.fill(this.elements.emailInput, username)
-        await this.waitForSelectorVisible(this.elements.passwordInput)
-        await page.fill(this.elements.passwordInput, password)
-        await this.waitForSelectorVisible('#btn-login')
-        await page.locator('#btn-login').click()
+    async userLoginToMain(page,username, password) {
+        await this.waitForSelectorVisible(page, this.elements.emailInput);
+        await page.fill(this.elements.emailInput, username);
+        await this.waitForSelectorVisible(page, this.elements.passwordInput);
+        await page.fill(this.elements.passwordInput, password);
+        await this.waitForSelectorVisible(page, '#btn-login');
+        await page.locator('#btn-login').click();
     }
 
     /**
      * Verifies supervisor login to the main page.
      * @returns {Promise<void>}
      */
-    async loginToMainSuccessfull() {
-        await this.waitForSelectorVisible('#groupdName')
-        await expect(page).toHaveURL('https://qa-lab5.finesource.org/index.php#/fs/modules/profile/profile.html');
+    async loginToMainSuccessfull(page) {
+        await this.wait(3)
+        await expect(page).toHaveURL(config.expectedUrl);
     }
 
     /**
@@ -75,8 +85,8 @@ class LoginPage extends BasePage {
      * Performs agent login to the voice channel.
      * @returns {Promise<void>}
      */
-    async AgentloginToVoice() {
-        await this.waitForSelectorVisible('#channel-voice-label-text')
+    async AgentloginToVoice(page) {
+        await this.waitForSelectorVisible(page,'#channel-voice-label-text')
         await page.locator('#channel-voice-label-text').getByText('Offline').click();
     }
 
@@ -84,12 +94,12 @@ class LoginPage extends BasePage {
      * Configures the voice channel.
      * @returns {Promise<void>}
      */
-    async configureVoiceChannel() {
+    async configureVoiceChannel(page) {
         await page.locator('//*[@id="s2id_voice-outbound-inbound-selector-select"]/a').click()
          await page.locator("//li[div[@class='select2-result-label' and contains(text(), 'OutboundCampaign_1')]]").click();
-        await this.waitForSelectorVisible('//span[contains(text(),"InboundQueue_1")]')
+        await this.waitForSelectorVisible(page, '//span[contains(text(),"InboundQueue_1")]')
         await page.locator('//span[contains(text(),"InboundQueue_1")]').click()
-        await this.waitForSelectorVisible('#voice-login-extension')
+        await this.waitForSelectorVisible(page, '#voice-login-extension')
         await page.fill('#voice-login-extension', '999')
         await page.mouse.down();
         await expect(page.locator('#voice-login-submit')).toBeVisible()
