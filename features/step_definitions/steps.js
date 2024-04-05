@@ -26,12 +26,10 @@ Given('As a user log in to the platform', async () => {
 })
 
 Given('Agent logs in with correct email and password', async()=>{
-  // await basePage.setupBrowserContext();
     await loginpage.userLoginToMain(global.agentPage, config.users.agent.username, config.users.agent.password);
 })
 
 Given('Supervisor logs in with correct email and password', async () => {
-   //await basePage.setupBrowserContext(); 
     await loginpage.userLoginToMain(global.supervisorPage, config.users.supervisor.username, config.users.supervisor.password);
 })
 
